@@ -11,10 +11,10 @@ state_jk <- subset(State_ind, NAME_1=="Jammu and Kashmir")
 state_pak <- getData(name="GADM", country="PAK", level=1)
 #To check the class of the data, it is SpatialPolygonsDataFrame object. 
  class(state_pak)
- #To explore the data contained in the object
+ #To explore the data contained in the object in rows & columns namely :GID_0   NAME_0   GID_1    NAME_1 VARNAME_1 NL_NAME_1   TYPE_1 ENGTYPE_1 CC_1
 state_pak@data
 state_jk@data
-#Change the data before combining it
+#Change the row values before trying to merge the two SPDf objects
 > state_jk@data[1]<-'PAK'
 > state_jk@data[2]<-'Pakistan'
 > state_jk@data[3]<-'PAK.1_2'
