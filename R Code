@@ -1,0 +1,31 @@
+Combining two SpatialPolygonsDataFrame objects in R
+#Load the libraries
+library(maps)
+library(raster)
+#This needs internet connection and the data downloaded is greater than 3.3 MB 
+#Download country level GADM data for Pakistan & India using function getData()
+#For details on GADM  data: https://gadm.org/data.html
+State_ind <- getData(name="GADM", country="IND", level=1)
+#Subset data for Jammu & Kasmir
+state_jk <- subset(State_ind, NAME_1=="Jammu and Kashmir")
+state_pak <- getData(name="GADM", country="PAK", level=1)
+#To check the class of the data, it is SpatialPolygonsDataFrame object. 
+ class(state_pak)
+ #To explore the data contained in the object
+state_pak@data
+state_jk@data
+#Change the data before combining it
+> state_jk@data[1]<-'PAK'
+> state_jk@data[2]<-'Pakistan'
+> state_jk@data[3]<-'PAK.1_2'
+> state_jk@data
+  GID_0   NAME_0   GID_1            NAME_1 VARNAME_1 NL_NAME_1 TYPE_1 ENGTYPE_1 CC_1 HASC_1
+6   PAK Pakistan PAK.1_2 Jammu and Kashmir      <NA>      <NA>  State     State <NA>  IN.JK
+> state_jk@data[2]<-'Pakistan'
+> state_jk@data[10]<-'PK_JK'
+> state_jk@data
+  GID_0   NAME_0   GID_1            NAME_1 VARNAME_1 NL_NAME_1 TYPE_1 ENGTYPE_1 CC_1 HASC_1
+6   PAK Pakistan PAK.1_2 Jammu and Kashmir      <NA>      <NA>  State     State <NA>  PK_JK
+> state_pakjk<-rbind(state_pak,state_jk)
+> state_pakjk@data
+map(state_pakjk,col="forestgreen")
