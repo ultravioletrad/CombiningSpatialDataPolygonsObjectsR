@@ -9,9 +9,9 @@ State_ind <- getData(name="GADM", country="IND", level=1)
 #Subset data for Jammu & Kasmir
 state_jk <- subset(State_ind, NAME_1=="Jammu and Kashmir")
 state_pak <- getData(name="GADM", country="PAK", level=1)
-#To check the class of the data, it is SpatialPolygonsDataFrame object. 
+#To check the class of the data, it is SpatialPolygonsDataFrame object. class: SpatialPolygonsDataFrame or SPDF
  class(state_pak)
- #To explore the data contained in the object in rows & columns namely :GID_0   NAME_0   GID_1    NAME_1 VARNAME_1 NL_NAME_1   TYPE_1 ENGTYPE_1 CC_1
+ #To explore the data contained in the object in rows & columns :GID_0   NAME_0   GID_1    NAME_1 VARNAME_1 NL_NAME_1   TYPE_1 ENGTYPE_1 CC_1 HASC_1
 state_pak@data
 state_jk@data
 #Change the row values before trying to merge the two SPDf objects
@@ -21,11 +21,13 @@ state_jk@data
 > state_jk@data
   GID_0   NAME_0   GID_1            NAME_1 VARNAME_1 NL_NAME_1 TYPE_1 ENGTYPE_1 CC_1 HASC_1
 6   PAK Pakistan PAK.1_2 Jammu and Kashmir      <NA>      <NA>  State     State <NA>  IN.JK
-> state_jk@data[2]<-'Pakistan'
+
 > state_jk@data[10]<-'PK_JK'
 > state_jk@data
   GID_0   NAME_0   GID_1            NAME_1 VARNAME_1 NL_NAME_1 TYPE_1 ENGTYPE_1 CC_1 HASC_1
 6   PAK Pakistan PAK.1_2 Jammu and Kashmir      <NA>      <NA>  State     State <NA>  PK_JK
+#Cobine the two SPDF by using the function rbind()
 > state_pakjk<-rbind(state_pak,state_jk)
 > state_pakjk@data
+#Plot the map of the combined SPDFs
 map(state_pakjk,col="forestgreen")
